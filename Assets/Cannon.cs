@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class Cannon : MonoBehaviour
+public class Cannon : WorldEntity
 {
     public Transform cannonBallOrigin;
 
@@ -14,18 +14,26 @@ public class Cannon : MonoBehaviour
 
     private float lastShot = 0;
 
-    private void Update()
+    public void Shoot()
     {
-        if (Input.GetButton("Fire1") && Time.time >= lastShot + shotDelay)
+        if (Time.time >= lastShot + shotDelay) 
         {
-            var ball = Instantiate(cannonBall, cannonBallOrigin.position, cannonBallOrigin.rotation);
-            ball.transform.parent = CannonBallsRoot.transform;
-            ball.transform.forward = cannonBallOrigin.forward;
-            lastShot = Time.time;
+            var spawned = Instantiate(cannonBall, cannonBallOrigin.position, cannonBallOrigin.rotation);
+            spawned.transform.parent = CannonBallsRoot.transform;
+            spawned.transform.forward = cannonBallOrigin.forward;
+
+            var shotEffect = GetComponent<VisualEffect>();
+            var shotAttributes = shotEffect.CreateVFXEventAttribute();
+            shotAttributes.SetVector3("WindDirection", worldRoot.windVector3);
             
-            Debug.Log($"Shot: Time.time = {Time.time}, lastShot = {lastShot}, shotDelay = {shotDelay}");
+            // TODO: Event triggers the effect in editor, somehow not ingame
+            shotEffect.SendEvent("OnShoot");
+            
+            Debug.Log("OnShoot");
+            
+            lastShot = Time.time;
         }
     }
-    
+
     private GameObject CannonBallsRoot => GameObject.Find("CannonBalls");
 }

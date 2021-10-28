@@ -16,4 +16,9 @@ public class WorldRoot : MonoBehaviour
     /// A quaternion that is correctly rotated according to the current wind
     /// </summary>
     public Quaternion windRotation => Quaternion.Euler(0, -windDirection + 90, 0);
+    
+    /// <summary>
+    /// A vector 3 that blows along the positive z axis
+    /// </summary>
+    public Vector3 windVector3 => windRotation * Vector3.forward;
 }

@@ -19,8 +19,8 @@ public class SailProgress : MonoBehaviour
     private void Update()
     {
         _renderer.GetPropertyBlock(_propBlock);
-        _propBlock.SetFloat("_Segment_Count", _ship.sailChangeSpeed);
-        _propBlock.SetFloat("_Removed_Segments", _ship.SailChangePercent * _ship.sailChangeSpeed);
+        _propBlock.SetFloat("_Segment_Count", _ship.sailChangeSpeed * 2);
+        _propBlock.SetFloat("_Removed_Segments", _ship.SailChangePercent * _ship.sailChangeSpeed * 2);
         _renderer.SetPropertyBlock(_propBlock);
     }
 }

@@ -7,6 +7,8 @@ public class PlayerShip : WorldEntity
 
     public float turnSpeed = 90;
 
+    public Cannon activeCannon;
+
     private PlayerModel _model;
 
     /// <summary>
@@ -55,6 +57,12 @@ public class PlayerShip : WorldEntity
             }
             _model.activateSails(numHoistedSails);
             _lastSailChange = Time.time;
+        }
+        
+        // Possibly shooting
+        if (Input.GetButton("Fire1"))
+        {
+            activeCannon.Shoot();
         }
         
         shipTransform.position += shipTransform.forward * Time.deltaTime * FullSailPercent;
